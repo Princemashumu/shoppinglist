@@ -1,0 +1,77 @@
+
+.Wrapper{
+
+    display: grid;
+    grid-template-areas: 1fr,5fr,2fr;
+    grid-template-columns: "Header"
+                            "MainBody"
+                            "Footer";
+    position: relative;
+    
+}
+
+.Header{
+    grid-area: "Header";
+    display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding:20px;
+  background-color: transparent; /* Invisible */
+  backdrop-filter: blur(10px); /* Optional: adds a subtle blur effect */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Optional: adds a subtle border */
+  z-index: 1000;
+}
+
+.AppName {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333; /* Adjust color as needed */
+  }
+  
+  .SearchBar {
+    display: flex;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.8); /* Slightly visible background */
+    border-radius: 5px;
+    padding: 5px 10px;
+  }
+  
+  .SearchIcon {
+    color: #333; /* Adjust icon color */
+  }
+  
+  .SearchInput {
+    border: none;
+    outline: none;
+    margin-left: 5px;
+    background: transparent;
+    color: #333;
+  }
+  
+  .LogoutButton {
+    display: flex;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.8); /* Slightly visible background */
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    color: #333;
+    cursor: pointer;
+  }
+  
+  .LogoutButton svg {
+    margin-right: 5px;
+  }
+  
+  /* Ensure the MainBody is pushed down to avoid overlap with the fixed header */
+  .MainBody {
+    grid-area: "MainBody";
+    padding-top: 60px;
+  }
+  
+.Footer{
+    grid-area: "Footer";
+}

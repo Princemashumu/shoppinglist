@@ -1,0 +1,21 @@
+{
+  "users": [
+    {
+      "id": "c6b4",
+      "username": "princemashumu@yahoo.com",
+      "password": "123"
+    }
+  ],
+  "fruitVeg": [
+    {
+      "id": "038b",
+      "name": "apple",
+      "quantity": "2",
+      "price": "5",
+      "notes": ""
+    }
+  ],
+  "meat": [],
+  "beverages": [],
+  "bathing": []
+}
