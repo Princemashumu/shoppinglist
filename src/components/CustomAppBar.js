@@ -57,39 +57,48 @@ function CustomAppBar({ onSearch }) {
 
   const [signUpData, setSignUpData] = useState({ username: '', password: '', confirmPassword: '' });
   const [loginData, setLoginData] = useState({ username: '', password: '' });
- 
+  
   const navigate = useNavigate();
 
-  const handleSearchChange = (event) => {
+  const handleSearchChange = async (event) => {
     const searchValue = event.target.value;
-    if (searchValue) {
-      fetch(`http://localhost:5000/items?q=${encodeURIComponent(searchValue)}`)
-        .then(response => {
-          if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-          }
-          return response.json();
-        })
-        .then(data => {
-          console.log('Search results:', data); // Debugging line
-          if (Array.isArray(data) && data.length > 0) {
-            setSearchedItems(data);
-          } else {
-            setSearchedItems([]); // Clear results if no items found
-          }
-          setOpenSearchDialog(true);
-        })
-        .catch(error => {
-          console.error('Error fetching search results:', error);
-          setSnackbarMessage(`Error fetching search results: ${error.message}`);
-          setSnackbarOpen(true);
-        });
-    } else {
+    
+    if (!searchValue) {
       setSearchedItems([]); // Clear results if search value is empty
       setOpenSearchDialog(false);
+      return;
+    }
+
+    try {
+      const categories = ['fruitVeg', 'meat', 'beverages', 'bathing'];
+      const results = await Promise.all(categories.map(category => 
+        fetch(`http://localhost:5000/${category}?q=${encodeURIComponent(searchValue)}`)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+          })
+      ));
+      
+      // Flatten the results array and remove duplicates
+      const flattenedResults = [].concat(...results);
+      const uniqueResults = Array.from(new Set(flattenedResults.map(item => item.id)))
+        .map(id => flattenedResults.find(item => item.id === id));
+
+      console.log('Search results:', uniqueResults); // Debugging line
+      if (uniqueResults.length > 0) {
+        setSearchedItems(uniqueResults);
+      } else {
+        setSearchedItems([]); // Clear results if no items found
+      }
+      setOpenSearchDialog(true);
+    } catch (error) {
+      console.error('Error fetching search results:', error);
+      setSnackbarMessage(`Error fetching search results: ${error.message}`);
+      setSnackbarOpen(true);
     }
   };
-  
 
   const handleSignOut = () => {
     setIsSignedIn(false);
@@ -166,7 +175,7 @@ function CustomAppBar({ onSearch }) {
 
   const handleItemClick = (item) => {
     // Example logic for fetching full details of the item
-    const itemDetails = `Full details of ${item}`;
+    const itemDetails = `Full details of ${item.name}`;
     setSelectedItemDetails(itemDetails);
     setOpenItemDetailsDialog(true);
   };
@@ -218,7 +227,7 @@ function CustomAppBar({ onSearch }) {
           )}
           {isSignedIn ? (
             <IconButton edge="end" color="inherit" aria-label="logout" onClick={handleSignOut}>
-              <LogoutIcon sx={{ color: '#333' }} />
+              <Typography sx={{ color: '#333' }} >SignOut  </Typography> <LogoutIcon sx={{ color: '#333' }} />
             </IconButton>
           ) : (
             <Box>
@@ -237,6 +246,34 @@ function CustomAppBar({ onSearch }) {
           )}
         </Toolbar>
       </AppBar>
+
+      {/* Search Dialog */}
+      <Dialog open={openSearchDialog} onClose={() => setOpenSearchDialog(false)}>
+        <DialogTitle>Search Results</DialogTitle>
+        <DialogContent>
+          <List>
+            {searchedItems.map(item => (
+              <ListItem button key={item.id} onClick={() => handleItemClick(item)}>
+                <ListItemText primary={item.name} secondary={item.category} />
+              </ListItem>
+            ))}
+          </List>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenSearchDialog(false)}>Close</Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Item Details Dialog */}
+      <Dialog open={openItemDetailsDialog} onClose={handleCloseItemDetailsDialog}>
+        <DialogTitle>Item Details</DialogTitle>
+        <DialogContent>
+          <Typography variant="body1">{selectedItemDetails}</Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseItemDetailsDialog}>Close</Button>
+        </DialogActions>
+      </Dialog>
 
       {/* Sign Up Dialog */}
       <Dialog open={openSignUp} onClose={handleCloseSignUp}>
@@ -312,39 +349,7 @@ function CustomAppBar({ onSearch }) {
         </DialogActions>
       </Dialog>
 
-      {/* Search Results Dialog */}
-      <Dialog open={openSearchDialog} onClose={() => setOpenSearchDialog(false)}>
-        <DialogTitle>Search Results</DialogTitle>
-        <DialogContent>
-          <List>
-            {searchedItems.length > 0 ? (
-              searchedItems.map(item => (
-                <ListItem button key={item.id} onClick={() => handleItemClick(item)}>
-                  <ListItemText primary={item.name} />
-                </ListItem>
-              ))
-            ) : (
-              <Typography>No results found</Typography>
-            )}
-          </List>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setOpenSearchDialog(false)}>Close</Button>
-        </DialogActions>
-      </Dialog>
-
-      {/* Item Details Dialog */}
-      <Dialog open={openItemDetailsDialog} onClose={handleCloseItemDetailsDialog}>
-        <DialogTitle>Item Details</DialogTitle>
-        <DialogContent>
-          <Typography>{selectedItemDetails}</Typography>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseItemDetailsDialog}>Close</Button>
-        </DialogActions>
-      </Dialog>
-
-      {/* Snackbar for Errors */}
+      {/* Snackbar for notifications */}
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={6000}
