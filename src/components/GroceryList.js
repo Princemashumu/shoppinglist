@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Grid, Typography, TextField, IconButton, Button, CircularProgress } from '@mui/material';
+import { Box, Grid, Typography, TextField, IconButton, Button } from '@mui/material';
 import { Edit, Save, Cancel, Add, Delete, Share } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchItems, addItem, updateItem, deleteItem, setTitle } from '../redux/slices/grocerySlice';
+import logo from '../logo.png';
 
 function GroceryList() {
   const dispatch = useDispatch();
@@ -14,6 +15,7 @@ function GroceryList() {
     beverages: { name: '', quantity: '', price: '', notes: '' },
     bathing: { name: '', quantity: '', price: '', notes: '' },
   });
+  
 
   const [isEditing, setIsEditing] = useState({
     fruitVeg: null,
@@ -181,7 +183,11 @@ function GroceryList() {
 
   return (
     <Box sx={{ p: 2 }}>
-      {loading && <CircularProgress />}
+     {loading && (
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+          <img src={logo} alt="Loading..." width={100} height={100} />
+        </Box>
+      )}
       <Grid container spacing={2}>
         {['fruitVeg', 'meat', 'beverages', 'bathing'].map((category) => (
           <Grid item xs={12} sm={6} md={3} key={category}>

@@ -6,7 +6,7 @@ function Footer() {
   return (
     <Box 
       sx={{ 
-        position: 'fixed', // Fixes the footer at the bottom
+        position: 'static', // Fixes the footer at the bottom
         bottom: 0, // Positions it at the bottom of the viewport
         left: 0,
         width: '100%', // Ensures the footer spans the entire width of the viewport
