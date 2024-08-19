@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { AppBar, Toolbar, Typography, IconButton, InputBase, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Snackbar, List, ListItem, ListItemText } from '@mui/material';
 import { Search as SearchIcon, Logout as LogoutIcon, PersonAdd as PersonAddIcon } from '@mui/icons-material';
 import { styled, alpha } from '@mui/material/styles';
+import { useNavigate } from 'react-router-dom';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -57,7 +58,8 @@ function CustomAppBar({ onSearch }) {
   const [signUpData, setSignUpData] = useState({ username: '', password: '', confirmPassword: '' });
   const [loginData, setLoginData] = useState({ username: '', password: '' });
  
- 
+  const navigate = useNavigate();
+
   const handleSearchChange = (event) => {
     const searchValue = event.target.value;
     if (searchValue) {
@@ -91,6 +93,7 @@ function CustomAppBar({ onSearch }) {
 
   const handleSignOut = () => {
     setIsSignedIn(false);
+    navigate('/');
   };
 
   const handleOpenSignUp = () => setOpenSignUp(true);
