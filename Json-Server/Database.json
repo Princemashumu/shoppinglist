@@ -14,7 +14,7 @@
   "fruitVeg": [
     {
       "name": "banana",
-      "quantity": "23",
+      "quantity": "24",
       "price": "2",
       "notes": "",
       "id": "6193"
@@ -34,6 +34,13 @@
       "price": "250",
       "notes": "",
       "id": "3e80"
+    },
+    {
+      "name": "beef",
+      "quantity": "2",
+      "price": "160",
+      "notes": "",
+      "id": "92f4"
     }
   ],
   "beverages": [],
