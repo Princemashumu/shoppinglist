@@ -13,37 +13,29 @@
   ],
   "fruitVeg": [
     {
-      "name": "apple",
-      "quantity": "2",
-      "price": "5",
+      "name": "banana",
+      "quantity": "23",
+      "price": "2",
       "notes": "",
-      "id": "038b"
+      "id": "6193"
     },
     {
-      "id": "c06d",
-      "name": "banana",
-      "quantity": "20",
-      "price": "3.00",
-      "notes": ""
+      "name": "apple",
+      "quantity": "30",
+      "price": "3",
+      "notes": "",
+      "id": "e198"
     }
   ],
   "meat": [
     {
-      "id": "3e80",
       "name": "chicken 5KG",
       "quantity": "2",
       "price": "250",
-      "notes": ""
+      "notes": "",
+      "id": "3e80"
     }
   ],
-  "beverages": [
-    {
-      "id": "8d0c",
-      "name": "Hansa",
-      "quantity": "48",
-      "price": "22",
-      "notes": ""
-    }
-  ],
+  "beverages": [],
   "bathing": []
 }

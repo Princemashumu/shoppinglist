@@ -1,8 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
-import shoppingListReducer from '../features/shoppingList/shoppingListSlice';
+import groceryReducer from '../redux/slices/grocerySlice';
 
-export const store = configureStore({
+const store = configureStore({
   reducer: {
-    shoppingList: shoppingListReducer,
+    grocery: groceryReducer,
   },
 });
+
+export default store;

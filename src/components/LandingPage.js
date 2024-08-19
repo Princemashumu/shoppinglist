@@ -1,5 +1,18 @@
 import React, { useState } from 'react';
-import { Box, AppBar, Toolbar, Typography, TextField, Button, Snackbar, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import {
+  Box,
+  AppBar,
+  Toolbar,
+  Typography,
+  TextField,
+  Button,
+  Snackbar,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Link
+} from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import logo from '../logo.png'; // Adjust the path if necessary
 import Footer from './Footer';
@@ -10,6 +23,8 @@ function LandingPage() {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [privacyDialogOpen, setPrivacyDialogOpen] = useState(false);
+  const [termsDialogOpen, setTermsDialogOpen] = useState(false);
   const [loginLoading, setLoginLoading] = useState(false);
   const [showLoader, setShowLoader] = useState(false);
   const navigate = useNavigate();
@@ -34,7 +49,6 @@ function LandingPage() {
     setShowLoader(true);
 
     try {
-      // Simulate network delay with a delay before showing the loader
       await new Promise(resolve => setTimeout(resolve, 100)); // Short delay before showing the loader
       const response = await fetch('http://localhost:5000/users');
       if (!response.ok) throw new Error('Network response was not ok.');
@@ -112,7 +126,7 @@ function LandingPage() {
             <span style={{ color: 'red' }}>L</span>ist
           </Typography>
           <Box>
-            <Button
+            {/* <Button
               variant="outlined"
               sx={{
                 color: '#333',
@@ -127,7 +141,7 @@ function LandingPage() {
               onClick={handleSignUp}
             >
               Sign Up
-            </Button>
+            </Button> */}
             <Button
               variant="contained"
               sx={{
@@ -200,11 +214,45 @@ function LandingPage() {
               value={signUpData.confirmPassword}
               onChange={handleSignUpChange}
             />
+            <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
+              <TextField
+                type="checkbox"
+                id="acceptTerms"
+                name="acceptTerms"
+                onChange={() => setSignUpData(prev => ({ ...prev, acceptTerms: !prev.acceptTerms }))}
+              />
+              <Typography variant="body2" sx={{ ml: 1 }}>
+                I accept the 
+                <Link
+                  href="#"
+                  onClick={() => setPrivacyDialogOpen(true)}
+                  sx={{ ml: 1, color: 'blue' }}
+                >
+                  Privacy Policy
+                </Link>
+                  and
+                <Link
+                  href="#"
+                  onClick={() => setTermsDialogOpen(true)}
+                  sx={{ ml: 1, color: 'blue' }}
+                >
+                  Terms and Conditions
+                </Link>.
+              </Typography>
+            </Box>
             <Button
-              variant="contained"
-              color="primary"
+              variant="outlined"
+              sx={{
+                color: '#333',
+                borderColor: '#333',
+                mr: 1,
+                '&:hover': {
+                  borderColor: 'red',
+                  color: 'red',
+                  backgroundColor: 'rgba(255, 0, 0, 0.1)',
+                },
+              }}
               onClick={handleSignUp}
-              sx={{ mt: 2 }}
             >
               Sign Up
             </Button>
@@ -229,7 +277,7 @@ function LandingPage() {
         <DialogContent>
           {loginLoading ? (
             <Box sx={{ textAlign: 'center', padding: '20px' }}>
-              <img src={logo} alt="Logging in..." style={{ width: '100px', height: '100px' }} />
+              <img src={logo} alt="Loading..." style={{ width: '50px', height: '50px' }} />
               <Typography variant="h6" sx={{ mt: 2 }}>
                 Logging in...
               </Typography>
@@ -268,6 +316,165 @@ function LandingPage() {
           </Button>
         </DialogActions>
       </Dialog>
+
+      <Dialog
+        open={privacyDialogOpen}
+        onClose={() => setPrivacyDialogOpen(false)}
+        maxWidth="md"
+        fullWidth
+      >
+        <DialogTitle>Privacy Policy</DialogTitle>
+        <DialogContent>
+          <Typography variant="body1" paragraph>
+            **Privacy Policy**
+            <br />
+            <br />
+            **1. Introduction**
+            <br />
+            Welcome to List App ("we", "our", "us"). This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website or use our application. By using our services, you agree to the collection and use of information in accordance with this policy.
+            <br />
+            <br />
+            **2. Information Collection**
+            <br />
+            We may collect and process the following types of information:
+            <br />
+            - **Personal Data**: Name, email address, phone number, etc.
+            <br />
+            - **Usage Data**: Information about your interaction with our services, including IP address, browser type, and pages visited.
+            <br />
+            - **Cookies and Tracking Technologies**: We use cookies to track your activity and preferences.
+            <br />
+            <br />
+            **3. Use of Information**
+            <br />
+            We use the collected information to:
+            <br />
+            - Provide and maintain our services
+            <br />
+            - Improve user experience and service functionality
+            <br />
+            - Communicate with you, including for updates and promotional purposes
+            <br />
+            - Analyze usage trends and conduct research
+            <br />
+            <br />
+            **4. Data Sharing and Disclosure**
+            <br />
+            We do not sell your personal information. However, we may share your information:
+            <br />
+            - With third-party service providers who assist us in operating our services
+            <br />
+            - In compliance with legal obligations or to protect our rights
+            <br />
+            - During business transactions such as mergers or acquisitions
+            <br />
+            <br />
+            **5. Data Security**
+            <br />
+            We implement reasonable measures to protect your data from unauthorized access, alteration, or disclosure. However, no method of transmission over the internet or electronic storage is 100% secure.
+            <br />
+            <br />
+            **6. Your Rights**
+            <br />
+            You have the right to access, correct, or delete your personal data. You can also object to processing or request restriction of processing.
+            <br />
+            <br />
+            **7. Changes to This Policy**
+            <br />
+            We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new policy on our website. Please review this policy periodically for any changes.
+            <br />
+            <br />
+            **8. Contact Us**
+            <br />
+            If you have any questions about this Privacy Policy, please contact us at:
+            <br />
+            - Email: [princengwakomashumu@gmail]
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setPrivacyDialogOpen(false)} color="primary">
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog
+        open={termsDialogOpen}
+        onClose={() => setTermsDialogOpen(false)}
+        maxWidth="md"
+        fullWidth
+      >
+        <DialogTitle>Terms and Conditions</DialogTitle>
+        <DialogContent>
+          <Typography variant="body1" paragraph>
+            **Terms and Conditions**
+            <br />
+            <br />
+            **1. Introduction**
+            <br />
+            These Terms and Conditions ("Terms") govern your use of List App ("we", "our", "us"). By accessing or using our services, you agree to comply with these Terms.
+            <br />
+            <br />
+            **2. Use of Services**
+            <br />
+            You agree to use our services only for lawful purposes and in accordance with these Terms. You must not:
+            <br />
+            - Violate any applicable laws or regulations
+            <br />
+            - Engage in any activity that disrupts or damages our services
+            <br />
+            - Attempt to gain unauthorized access to our systems
+            <br />
+            <br />
+            **3. User Accounts**
+            <br />
+            To use certain features, you may need to create an account. You are responsible for maintaining the confidentiality of your account credentials and for all activities under your account.
+            <br />
+            <br />
+            **4. Intellectual Property**
+            <br />
+            All content and materials provided through our services are owned by us or licensed to us. You may not reproduce, distribute, or create derivative works from our content without our permission.
+            <br />
+            <br />
+            **5. Limitation of Liability**
+            <br />
+            Our services are provided "as is" and we make no warranties of any kind, either express or implied. We are not liable for any damages arising from the use or inability to use our services.
+            <br />
+            <br />
+            **6. Indemnification**
+            <br />
+            You agree to indemnify and hold us harmless from any claims, damages, liabilities, and expenses arising from your use of our services or violation of these Terms.
+            <br />
+            <br />
+            **7. Termination**
+            <br />
+            We may terminate or suspend your access to our services at any time, with or without cause, and without prior notice.
+            <br />
+            <br />
+            **8. Changes to These Terms**
+            <br />
+            We may update these Terms from time to time. Any changes will be effective immediately upon posting on our website. Your continued use of our services after changes constitutes your acceptance of the new Terms.
+            <br />
+            <br />
+            **9. Governing Law**
+            <br />
+            These Terms are governed by and construed in accordance with the laws of [Your Jurisdiction]. Any disputes will be resolved in the courts located in [Your Jurisdiction].
+            <br />
+            <br />
+            **10. Contact Us**
+            <br />
+            If you have any questions about these Terms, please contact us at:
+            <br />
+            - Email: [princengwakomashumu@gmail.com]
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setTermsDialogOpen(false)} color="primary">
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
+
       <Footer />
     </Box>
   );
