@@ -81,7 +81,7 @@ function LandingPage() {
 
   const handleLogout = () => {
     dispatch(logout());
-    navigate('/'); // Navigate to the landing page or any other route you want
+    navigate("/"); // Navigate to the landing page or any other route you want
   };
 
   return (

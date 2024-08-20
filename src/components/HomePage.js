@@ -45,6 +45,7 @@ function HomePage() {
           bgcolor: 'background.paper',
           p: { xs: 2, sm: 4, md: 6 }, // Responsive padding
           textAlign: 'center',
+          position:'static',
         }}
       >
         <Footer />

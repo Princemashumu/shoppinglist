@@ -102,7 +102,7 @@ function CustomAppBar({ onSearch }) {
 
   const handleSignOut = () => {
     setIsSignedIn(false);
-    navigate('/');
+    navigate("/");
   };
 
   const handleOpenSignUp = () => setOpenSignUp(true);
@@ -226,9 +226,30 @@ function CustomAppBar({ onSearch }) {
             </Box>
           )}
           {isSignedIn ? (
-            <IconButton edge="end" color="inherit" aria-label="logout" onClick={handleSignOut}>
-              <Typography sx={{ color: '#333' }} >SignOut  </Typography> <LogoutIcon sx={{ color: '#333' }} />
-            </IconButton>
+           <IconButton 
+           edge="end" 
+           aria-label="logout" 
+           onClick={handleSignOut}
+           sx={{
+             color: '#333',
+             backgroundColor: 'rgba(255, 255, 255, 0.7)', // Light background
+             '&:hover': {
+               backgroundColor: 'rgba(255, 0, 0, 0.1)', // Red background on hover
+               color: '#ff0000', // Change text and icon color to red on hover
+             },
+             padding: '8px 16px', // Add some padding
+             borderRadius: '8px', // Rounded corners
+             boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)', // Subtle shadow
+             display: 'flex',
+             alignItems: 'center',
+             transition: 'background-color 0.3s, color 0.3s', // Smooth transition
+           }}
+         >
+           <Typography sx={{ color: '#333', marginRight: '8px', fontWeight: 500 }}>
+             Sign Out
+           </Typography>
+           <LogoutIcon sx={{ color: '#333' }} />
+         </IconButton>         
           ) : (
             <Box>
               <Button 

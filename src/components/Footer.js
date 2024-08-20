@@ -6,12 +6,12 @@ function Footer() {
   return (
     <Box 
       sx={{ 
-        position: 'static', // Fixes the footer at the bottom
-        bottom: 0, // Positions it at the bottom of the viewport
+        position: 'fixed', // Fixes the footer at the bottom of the viewport
+        bottom: 0, // Positions it at the bottom
         left: 0,
         width: '100%', // Ensures the footer spans the entire width of the viewport
-        backgroundColor: '#f5f5f5', 
-        p: 2, 
+        backgroundColor: 'black', 
+        p: 0, 
         display: 'flex', 
         justifyContent: 'center', 
         alignItems: 'center', 
@@ -20,7 +20,7 @@ function Footer() {
         zIndex: 1300 // Ensures the footer stays above other content
       }}
     >
-      <Typography variant="body1" color="textSecondary" sx={{ mb: 2 }}>
+      <Typography variant="body1" color="white" sx={{ mb: 2 }}>
         Follow us on
       </Typography>
       <Box>
@@ -34,7 +34,7 @@ function Footer() {
           <Pinterest sx={{ color: '#E60023' }} />
         </IconButton>
       </Box>
-      <Typography variant="body2" color="textSecondary" sx={{ mt: 2 }}>
+      <Typography variant="body2" color="white" sx={{ mt: 2 }}>
         © 2024 ShopList. All rights reserved.
       </Typography>
     </Box>

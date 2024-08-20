@@ -14,6 +14,11 @@
       "id": "0f12",
       "username": "prince",
       "password": "123"
+    },
+    {
+      "id": "a438",
+      "username": "princess",
+      "password": "000"r
     }
   ],
   "fruitVeg": [
@@ -39,6 +44,13 @@
       "price": "160",
       "notes": "",
       "id": "92f4"
+    },
+    {
+      "id": "ba24",
+      "name": "pork",
+      "quantity": "3",
+      "price": "80",
+      "notes": ""
     }
   ],
   "beverages": [],
