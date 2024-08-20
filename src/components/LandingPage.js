@@ -305,8 +305,118 @@ function LandingPage() {
         <DialogTitle>Privacy Policy</DialogTitle>
         <DialogContent>
           <Typography variant="body1">
-            {/* Add your Privacy Policy content here */}
-            Your privacy policy content goes here.
+          <Box sx={{ padding: '20px', maxWidth: '800px', margin: 'auto' }}>
+      <Typography variant="h4" gutterBottom>
+        Privacy Policy
+      </Typography>
+      
+      <Typography variant="h6" gutterBottom>
+        1. Introduction
+      </Typography>
+      <Typography variant="body1" paragraph>
+        Welcome to Shopping List App! We are committed to protecting your privacy and ensuring a safe online experience. This Privacy Policy explains how we collect, use, and share your personal information when you use our app.
+      </Typography>
+
+      <Typography variant="h6" gutterBottom>
+        2. Information We Collect
+      </Typography>
+      <Typography variant="h6" gutterBottom>
+        2.1 Personal Information
+      </Typography>
+      <Typography variant="body1" paragraph>
+        When you use our app, we may collect personal information that you provide directly, including:
+      </Typography>
+      <Typography variant="body1" paragraph>
+        - Registration Information: Username, password, and email address.
+        <br />
+        - Profile Information: Any additional details you provide in your profile.
+        <br />
+        - Usage Data: Information about how you use our app, such as features accessed and activities performed.
+      </Typography>
+
+      <Typography variant="h6" gutterBottom>
+        2.2 Non-Personal Information
+      </Typography>
+      <Typography variant="body1" paragraph>
+        We may also collect non-personal information, including:
+      </Typography>
+      <Typography variant="body1" paragraph>
+        - Device Information: Information about your device, including its model, operating system, and unique identifiers.
+        <br />
+        - Log Data: Details of your interactions with our app, including IP addresses and timestamps.
+      </Typography>
+
+      <Typography variant="h6" gutterBottom>
+        3. How We Use Your Information
+      </Typography>
+      <Typography variant="body1" paragraph>
+        We use your information for various purposes, including:
+      </Typography>
+      <Typography variant="body1" paragraph>
+        - To Provide and Improve Services: To deliver our services, enhance user experience, and resolve issues.
+        <br />
+        - To Communicate with You: To send you updates, notifications, and respond to your inquiries.
+        <br />
+        - For Analytics: To analyze app usage and performance to make improvements.
+      </Typography>
+
+      <Typography variant="h6" gutterBottom>
+        4. How We Share Your Information
+      </Typography>
+      <Typography variant="body1" paragraph>
+        We do not sell or rent your personal information. We may share your information in the following circumstances:
+      </Typography>
+      <Typography variant="body1" paragraph>
+        - Service Providers: We may share information with third-party service providers who assist us in operating our app and providing services.
+        <br />
+        - Legal Requirements: We may disclose your information if required to do so by law or to protect our rights and safety.
+        <br />
+        - Business Transfers: In the event of a merger, acquisition, or sale of assets, your information may be transferred as part of that transaction.
+      </Typography>
+
+      <Typography variant="h6" gutterBottom>
+        5. Data Security
+      </Typography>
+      <Typography variant="body1" paragraph>
+        We implement reasonable measures to protect your information from unauthorized access, alteration, disclosure, or destruction. However, no method of transmission over the internet or electronic storage is completely secure, and we cannot guarantee absolute security.
+      </Typography>
+
+      <Typography variant="h6" gutterBottom>
+        6. Your Choices
+      </Typography>
+      <Typography variant="body1" paragraph>
+        You have the following choices regarding your personal information:
+      </Typography>
+      <Typography variant="body1" paragraph>
+        - Access and Update: You can access and update your account information through your profile settings.
+        <br />
+        - Opt-Out: You can opt out of receiving promotional communications from us by following the instructions in those communications.
+      </Typography>
+
+      <Typography variant="h6" gutterBottom>
+        7. Children's Privacy
+      </Typography>
+      <Typography variant="body1" paragraph>
+        Our app is not intended for children under the age of 13. We do not knowingly collect personal information from children under 13. If we become aware that we have collected such information, we will take steps to delete it.
+      </Typography>
+
+      <Typography variant="h6" gutterBottom>
+        8. Changes to This Privacy Policy
+      </Typography>
+      <Typography variant="body1" paragraph>
+        We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on our app and updating the effective date. We encourage you to review this Privacy Policy periodically.
+      </Typography>
+
+      <Typography variant="h6" gutterBottom>
+        9. Contact Us
+      </Typography>
+      <Typography variant="body1" paragraph>
+        If you have any questions or concerns about this Privacy Policy or our data practices, please contact us at:
+      </Typography>
+      <Typography variant="body1" paragraph>
+        Email: princengwakomashumu
+      </Typography>
+    </Box>
           </Typography>
         </DialogContent>
         <DialogActions>
@@ -321,8 +431,84 @@ function LandingPage() {
         <DialogTitle>Terms and Conditions</DialogTitle>
         <DialogContent>
           <Typography variant="body1">
-            {/* Add your Terms and Conditions content here */}
-            Your terms and conditions content goes here.
+          <Box sx={{ padding: '20px', maxWidth: '800px', margin: 'auto' }}>
+      <Typography variant="h4" gutterBottom>
+        Terms and Conditions
+      </Typography>
+      
+      <Typography variant="h6" gutterBottom>
+        1. Introduction
+      </Typography>
+      <Typography variant="body1" paragraph>
+        Welcome to [Your App Name]! These Terms and Conditions govern your use of our app. By accessing or using our app, you agree to be bound by these terms. If you do not agree with any part of these terms, you must not use our app.
+      </Typography>
+
+      <Typography variant="h6" gutterBottom>
+        2. Use of Our App
+      </Typography>
+      <Typography variant="body1" paragraph>
+        You may use our app only for lawful purposes and in accordance with these Terms and Conditions. You agree not to:
+      </Typography>
+      <Typography variant="body1" paragraph>
+        - Use the app in any way that violates any applicable local, national, or international law.
+        <br />
+        - Interfere with or disrupt the operation of the app or servers.
+        <br />
+        - Attempt to gain unauthorized access to any part of the app or any systems or networks connected to it.
+      </Typography>
+
+      <Typography variant="h6" gutterBottom>
+        3. Account Responsibility
+      </Typography>
+      <Typography variant="body1" paragraph>
+        If you create an account on our app, you are responsible for maintaining the confidentiality of your account information and for all activities that occur under your account. You agree to notify us immediately of any unauthorized use of your account or any other breach of security.
+      </Typography>
+
+      <Typography variant="h6" gutterBottom>
+        4. Intellectual Property
+      </Typography>
+      <Typography variant="body1" paragraph>
+        All content, features, and functionality on the app are the exclusive property of [Your App Name] and its licensors and are protected by copyright, trademark, and other intellectual property laws. You may not use, reproduce, or distribute any content from our app without our express written permission.
+      </Typography>
+
+      <Typography variant="h6" gutterBottom>
+        5. Disclaimer of Warranties
+      </Typography>
+      <Typography variant="body1" paragraph>
+        Our app is provided on an "as is" and "as available" basis. We make no warranties or representations about the accuracy, reliability, or completeness of the app or its content. We disclaim all warranties, whether express or implied, including but not limited to implied warranties of merchantability and fitness for a particular purpose.
+      </Typography>
+
+      <Typography variant="h6" gutterBottom>
+        6. Limitation of Liability
+      </Typography>
+      <Typography variant="body1" paragraph>
+        In no event shall Shopping List App, its affiliates, or its licensors be liable for any indirect, incidental, special, consequential, or punitive damages arising out of or relating to your use of the app, whether based on contract, tort, strict liability, or otherwise, even if we have been advised of the possibility of such damages.
+      </Typography>
+
+      <Typography variant="h6" gutterBottom>
+        7. Changes to the Terms
+      </Typography>
+      <Typography variant="body1" paragraph>
+        We may update these Terms and Conditions from time to time. We will notify you of any changes by posting the new Terms and Conditions on our app and updating the effective date. You are advised to review these terms periodically for any changes.
+      </Typography>
+
+      <Typography variant="h6" gutterBottom>
+        8. Termination
+      </Typography>
+      <Typography variant="body1" paragraph>
+        We reserve the right to terminate or suspend your access to our app at any time, without prior notice, for any reason, including but not limited to violation of these Terms and Conditions.
+      </Typography>
+
+      <Typography variant="h6" gutterBottom>
+        9. Contact Us
+      </Typography>
+      <Typography variant="body1" paragraph>
+        If you have any questions about these Terms and Conditions, please contact us at:
+      </Typography>
+      <Typography variant="body1" paragraph>
+        Email: princengwakomashumu
+      </Typography>
+    </Box>
           </Typography>
         </DialogContent>
         <DialogActions>
