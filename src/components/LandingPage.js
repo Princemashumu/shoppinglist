@@ -16,7 +16,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { signUp, login, logout } from '../redux/slices/authSlice'; // Adjust the path if necessary
-import logo from '../logo.png';
+import logo from '../logo.png'; // Import the logo image
 import Footer from './Footer';
 
 function LandingPage() {
@@ -101,9 +101,12 @@ function LandingPage() {
         }}
       >
         <Toolbar sx={{ justifyContent: 'space-between' }}>
-          <Typography variant="h6" noWrap component="div" sx={{ color: '#333' }}>
-            <span style={{ color: 'red' }}>L</span>ist
-          </Typography>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <img src={logo} alt="Logo" style={{ width: '40px', height: 'auto', marginRight: '16px' }} />
+            <Typography variant="h6" noWrap component="div" sx={{ color: '#333' }}>
+              <span style={{ color: 'red' }}>L</span>ist
+            </Typography>
+          </Box>
           <Box>
             {user ? (
               <Button
@@ -263,46 +266,35 @@ function LandingPage() {
       <Dialog
         open={dialogOpen}
         onClose={() => setDialogOpen(false)}
-        maxWidth="sm"
-        fullWidth
       >
         <DialogTitle>Login</DialogTitle>
         <DialogContent>
-          {loading ? (
-            <Typography variant="body1">Loading...</Typography>
-          ) : (
-            <>
-              <TextField
-                autoFocus
-                margin="dense"
-                name="username"
-                label="Username"
-                type="text"
-                fullWidth
-                variant="standard"
-                value={loginData.username}
-                onChange={handleLoginChange}
-              />
-              <TextField
-                margin="dense"
-                name="password"
-                label="Password"
-                type="password"
-                fullWidth
-                variant="standard"
-                value={loginData.password}
-                onChange={handleLoginChange}
-              />
-            </>
-          )}
+          <TextField
+            margin="dense"
+            name="username"
+            label="Username"
+            type="text"
+            fullWidth
+            variant="standard"
+            value={loginData.username}
+            onChange={handleLoginChange}
+          />
+          <TextField
+            margin="dense"
+            name="password"
+            label="Password"
+            type="password"
+            fullWidth
+            variant="standard"
+            value={loginData.password}
+            onChange={handleLoginChange}
+          />
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setDialogOpen(false)} color="primary">
-            Cancel
+          <Button onClick={handleLogin} disabled={loading}>
+            {loading ? 'Logging In...' : 'Login'}
           </Button>
-          <Button onClick={handleLogin} color="primary" disabled={loading}>
-            {loading ? 'Logging in...' : 'Login'}
-          </Button>
+          <Button onClick={() => setDialogOpen(false)}>Cancel</Button>
         </DialogActions>
       </Dialog>
 
@@ -312,12 +304,13 @@ function LandingPage() {
       >
         <DialogTitle>Privacy Policy</DialogTitle>
         <DialogContent>
-          {/* Add your privacy policy content here */}
+          <Typography variant="body1">
+            {/* Add your Privacy Policy content here */}
+            Your privacy policy content goes here.
+          </Typography>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setPrivacyDialogOpen(false)} color="primary">
-            Close
-          </Button>
+          <Button onClick={() => setPrivacyDialogOpen(false)}>Close</Button>
         </DialogActions>
       </Dialog>
 
@@ -327,12 +320,13 @@ function LandingPage() {
       >
         <DialogTitle>Terms and Conditions</DialogTitle>
         <DialogContent>
-          {/* Add your terms and conditions content here */}
+          <Typography variant="body1">
+            {/* Add your Terms and Conditions content here */}
+            Your terms and conditions content goes here.
+          </Typography>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setTermsDialogOpen(false)} color="primary">
-            Close
-          </Button>
+          <Button onClick={() => setTermsDialogOpen(false)}>Close</Button>
         </DialogActions>
       </Dialog>
 
