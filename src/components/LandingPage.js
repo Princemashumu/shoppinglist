@@ -269,7 +269,6 @@ function LandingPage() {
           </Box>
         )}
       </Box>
-
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={6000}

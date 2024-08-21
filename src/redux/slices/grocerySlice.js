@@ -3,13 +3,12 @@ import axios from 'axios';
 
 const API_URL = 'http://localhost:5000';
 
-// Async thunks
-export const fetchItems = createAsyncThunk('grocery/fetchItems', async () => {
+export const fetchItems = createAsyncThunk('grocery/fetchItems', async (userId) => {
   const [fruitVeg, meat, beverages, bathing] = await Promise.all([
-    axios.get(`${API_URL}/fruitVeg`),
-    axios.get(`${API_URL}/meat`),
-    axios.get(`${API_URL}/beverages`),
-    axios.get(`${API_URL}/bathing`),
+    axios.get(`${API_URL}/fruitVeg?userId=${userId}`),
+    axios.get(`${API_URL}/meat?userId=${userId}`),
+    axios.get(`${API_URL}/beverages?userId=${userId}`),
+    axios.get(`${API_URL}/bathing?userId=${userId}`),
   ]);
   return {
     fruitVeg: fruitVeg.data,
@@ -19,13 +18,13 @@ export const fetchItems = createAsyncThunk('grocery/fetchItems', async () => {
   };
 });
 
-export const addItem = createAsyncThunk('grocery/addItem', async ({ category, item }) => {
-  const response = await axios.post(`${API_URL}/${category}`, item);
+export const addItem = createAsyncThunk('grocery/addItem', async ({ category, item, userId }) => {
+  const response = await axios.post(`${API_URL}/${category}`, { ...item, userId });
   return { category, item: response.data };
 });
 
-export const updateItem = createAsyncThunk('grocery/updateItem', async ({ category, id, item }) => {
-  await axios.put(`${API_URL}/${category}/${id}`, item);
+export const updateItem = createAsyncThunk('grocery/updateItem', async ({ category, id, item, userId }) => {
+  await axios.put(`${API_URL}/${category}/${id}`, { ...item, userId });
   return { category, id, item };
 });
 
@@ -40,12 +39,6 @@ const initialState = {
   meat: [],
   beverages: [],
   bathing: [],
-  titles: {
-    fruitVeg: 'Fruit & Veg',
-    meat: 'Meat',
-    beverages: 'Beverages',
-    bathing: 'Bathing',
-  },
   loading: false,
   error: null,
 };

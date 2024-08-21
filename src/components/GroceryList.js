@@ -8,7 +8,9 @@ import logo from '../logo.png';
 function GroceryList() {
   const dispatch = useDispatch();
   const { fruitVeg, meat, beverages, bathing, loading } = useSelector((state) => state.grocery);
-  
+  const userId = useSelector((state) => state.auth.userId);
+
+
   const [newItem, setNewItem] = useState({
     fruitVeg: { name: '', quantity: '', price: '', notes: '' },
     meat: { name: '', quantity: '', price: '', notes: '' },
@@ -44,11 +46,15 @@ function GroceryList() {
     beverages: false,
     bathing: false,
   });
+  
+  
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarOpen, setSnackbarOpen] = useState(false);
+ 
+ 
   useEffect(() => {
-    dispatch(fetchItems());
-  }, [dispatch]);
+    dispatch(fetchItems(userId));
+  }, [dispatch, userId]);
 
   const handleInputChange = (e, category, field) => {
     setNewItem({
@@ -63,14 +69,16 @@ function GroceryList() {
 
     if (isEditing[category] !== null) {
       const id = (category === 'fruitVeg' ? fruitVeg : category === 'meat' ? meat : category === 'beverages' ? beverages : bathing)[isEditing[category]].id;
-      dispatch(updateItem({ category, id, item: { name, quantity, price, notes } }));
-      setIsEditing({
-        ...isEditing,
-        [category]: null,
-      });
+      dispatch(updateItem({ category, id, item: { name, quantity, price, notes }, userId }));
+      setIsEditing({ ...isEditing, [category]: null });
     } else {
-      dispatch(addItem({ category, item: { name, quantity, price, notes } }));
+      dispatch(addItem({ category, item: { name, quantity, price, notes }, userId }));
     }
+
+    // setNewItem({ ...newItem, [category]: { name: '', quantity: '', price: '', notes: '' } });
+    // setAddingItem({ ...addingItem, [category]: false });
+    // setEditingTitle({ ...editingTitle, [category]: false });
+  
 
     setNewItem({
       ...newItem,
@@ -112,7 +120,7 @@ function GroceryList() {
 
   const handleDelete = (category, index) => {
     const id = (category === 'fruitVeg' ? fruitVeg : category === 'meat' ? meat : category === 'beverages' ? beverages : bathing)[index].id;
-    dispatch(deleteItem({ category, id }));
+    dispatch(deleteItem({ category, id, userId }));
   };
 
   const handleTitleChange = (e, category) => {

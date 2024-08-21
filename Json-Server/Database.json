@@ -29,6 +29,26 @@
       "id": "07bf",
       "username": "KK",
       "password": "222"
+    },
+    {
+      "id": "1256",
+      "username": "zak",
+      "password": "123"
+    },
+    {
+      "id": "ddcd",
+      "username": "oscar",
+      "password": "123"
+    },
+    {
+      "id": "61fb",
+      "username": "phori",
+      "password": "1212"
+    },
+    {
+      "id": "2da5",
+      "username": "jj",
+      "password": "123"
     }
   ],
   "fruitVeg": [
@@ -65,11 +85,11 @@
   ],
   "beverages": [
     {
-      "id": "3aba",
       "name": "stillwater",
       "quantity": "25",
       "price": "10.00",
-      "notes": "make sure its fresh water"
+      "notes": "make sure its fresh water",
+      "id": "3aba"
     }
   ],
   "bathing": []
