@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
-import { AppBar, Toolbar, Typography, IconButton, InputBase, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Snackbar, List, ListItem, ListItemText } from '@mui/material';
+import {
+  AppBar, Toolbar, Typography, IconButton, InputBase, Box, Button, Dialog, DialogActions,
+  DialogContent, DialogTitle, TextField, Snackbar, List, ListItem, ListItemText, MenuItem, Select
+} from '@mui/material';
 import { Search as SearchIcon, Logout as LogoutIcon, PersonAdd as PersonAddIcon } from '@mui/icons-material';
 import { styled, alpha } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
@@ -45,7 +48,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 function CustomAppBar({ onSearch }) {
-  const [isSignedIn, setIsSignedIn] = useState(true); // Assume true for demonstration
+  const [isSignedIn, setIsSignedIn] = useState(true);
   const [openSignUp, setOpenSignUp] = useState(false);
   const [openLogin, setOpenLogin] = useState(false);
   const [openSearchDialog, setOpenSearchDialog] = useState(false);
@@ -54,6 +57,7 @@ function CustomAppBar({ onSearch }) {
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [searchedItems, setSearchedItems] = useState([]);
   const [selectedItemDetails, setSelectedItemDetails] = useState(null);
+  const [sortOrder, setSortOrder] = useState('asc');
 
   const [signUpData, setSignUpData] = useState({ username: '', password: '', confirmPassword: '' });
   const [loginData, setLoginData] = useState({ username: '', password: '' });
@@ -64,7 +68,7 @@ function CustomAppBar({ onSearch }) {
     const searchValue = event.target.value;
     
     if (!searchValue) {
-      setSearchedItems([]); // Clear results if search value is empty
+      setSearchedItems([]);
       setOpenSearchDialog(false);
       return;
     }
@@ -80,24 +84,32 @@ function CustomAppBar({ onSearch }) {
             return response.json();
           })
       ));
+
+      let flattenedResults = [].concat(...results);
       
-      // Flatten the results array and remove duplicates
-      const flattenedResults = [].concat(...results);
+      // Sort results by price based on the selected sort order
+      flattenedResults.sort((a, b) => {
+        if (sortOrder === 'asc') {
+          return a.price - b.price;
+        } else {
+          return b.price - a.price;
+        }
+      });
+
       const uniqueResults = Array.from(new Set(flattenedResults.map(item => item.id)))
         .map(id => flattenedResults.find(item => item.id === id));
 
-      console.log('Search results:', uniqueResults); // Debugging line
-      if (uniqueResults.length > 0) {
-        setSearchedItems(uniqueResults);
-      } else {
-        setSearchedItems([]); // Clear results if no items found
-      }
+      setSearchedItems(uniqueResults);
       setOpenSearchDialog(true);
     } catch (error) {
       console.error('Error fetching search results:', error);
       setSnackbarMessage(`Error fetching search results: ${error.message}`);
       setSnackbarOpen(true);
     }
+  };
+
+  const handleSortChange = (event) => {
+    setSortOrder(event.target.value);
   };
 
   const handleSignOut = () => {
@@ -174,7 +186,6 @@ function CustomAppBar({ onSearch }) {
   };
 
   const handleItemClick = (item) => {
-    // Example logic for fetching full details of the item
     const itemDetails = `Full details of ${item.name}`;
     setSelectedItemDetails(itemDetails);
     setOpenItemDetailsDialog(true);
@@ -198,7 +209,8 @@ function CustomAppBar({ onSearch }) {
           right: '10px',
           top: '10px',
           margin: 'auto',
-          width: 'calc(100% - 20px)'
+          width: 'calc(100% - 20px)',
+          
         }}
       >
         <Toolbar sx={{ justifyContent: 'space-between' }}>
@@ -206,7 +218,7 @@ function CustomAppBar({ onSearch }) {
             <span style={{ color: 'red' }}>L</span>ist
           </Typography>
           {isSignedIn ? (
-            <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
+            <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
               <Search>
                 <SearchIconWrapper>
                   <SearchIcon sx={{ color: '#000' }} />
@@ -217,84 +229,45 @@ function CustomAppBar({ onSearch }) {
                   onChange={handleSearchChange}
                 />
               </Search>
+              <Select
+                value={sortOrder}
+                onChange={handleSortChange}
+                displayEmpty
+                inputProps={{ 'aria-label': 'Sort' }}
+                sx={{ marginLeft: 2, color: '#333', minWidth: 120 }}
+              >
+                <MenuItem value="asc">Price: Low to High</MenuItem>
+                <MenuItem value="desc">Price: High to Low</MenuItem>
+              </Select>
             </Box>
           ) : (
-            <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
-              <Typography variant="h6" sx={{ color: '#333' }}>
-                Please Sign Up or Log In
-              </Typography>
-            </Box>
+            <Box sx={{ flexGrow: 1 }} />
           )}
           {isSignedIn ? (
-           <IconButton 
-           edge="end" 
-           aria-label="logout" 
-           onClick={handleSignOut}
-           sx={{
-             color: '#333',
-             backgroundColor: 'rgba(255, 255, 255, 0.7)', // Light background
-             '&:hover': {
-               backgroundColor: 'rgba(255, 0, 0, 0.1)', // Red background on hover
-               color: '#ff0000', // Change text and icon color to red on hover
-             },
-             padding: '8px 16px', // Add some padding
-             borderRadius: '8px', // Rounded corners
-             boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)', // Subtle shadow
-             display: 'flex',
-             alignItems: 'center',
-             transition: 'background-color 0.3s, color 0.3s', // Smooth transition
-           }}
-         >
-           <Typography sx={{ color: '#333', marginRight: '8px', fontWeight: 500 }}>
-             Sign Out
-           </Typography>
-           <LogoutIcon sx={{ color: '#333' }} />
-         </IconButton>         
+            <IconButton edge="end" color="inherit" onClick={handleSignOut}>
+              <LogoutIcon sx={{ color: '#333' }} />
+            </IconButton>
           ) : (
-            <Box>
-              <Button 
-                variant="outlined" 
-                startIcon={<PersonAddIcon />} 
-                onClick={handleOpenSignUp} 
-                sx={{ marginRight: 2 }}
+            <Box sx={{ display: 'flex', gap: '10px' }}>
+              <Button
+                variant="contained"
+                color="primary"
+                startIcon={<PersonAddIcon />}
+                onClick={handleOpenSignUp}
               >
                 Sign Up
               </Button>
-              <Button variant="outlined" onClick={handleOpenLogin}>
-                Log In
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleOpenLogin}
+              >
+                Login
               </Button>
             </Box>
           )}
         </Toolbar>
       </AppBar>
-
-      {/* Search Dialog */}
-      <Dialog open={openSearchDialog} onClose={() => setOpenSearchDialog(false)}>
-        <DialogTitle>Search Results</DialogTitle>
-        <DialogContent>
-          <List>
-            {searchedItems.map(item => (
-              <ListItem button key={item.id} onClick={() => handleItemClick(item)}>
-                <ListItemText primary={item.name} secondary={item.category} />
-              </ListItem>
-            ))}
-          </List>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setOpenSearchDialog(false)}>Close</Button>
-        </DialogActions>
-      </Dialog>
-
-      {/* Item Details Dialog */}
-      <Dialog open={openItemDetailsDialog} onClose={handleCloseItemDetailsDialog}>
-        <DialogTitle>Item Details</DialogTitle>
-        <DialogContent>
-          <Typography variant="body1">{selectedItemDetails}</Typography>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseItemDetailsDialog}>Close</Button>
-        </DialogActions>
-      </Dialog>
 
       {/* Sign Up Dialog */}
       <Dialog open={openSignUp} onClose={handleCloseSignUp}>
@@ -307,7 +280,7 @@ function CustomAppBar({ onSearch }) {
             label="Username"
             type="text"
             fullWidth
-            variant="standard"
+            variant="outlined"
             value={signUpData.username}
             onChange={handleSignUpChange}
           />
@@ -317,7 +290,7 @@ function CustomAppBar({ onSearch }) {
             label="Password"
             type="password"
             fullWidth
-            variant="standard"
+            variant="outlined"
             value={signUpData.password}
             onChange={handleSignUpChange}
           />
@@ -327,20 +300,20 @@ function CustomAppBar({ onSearch }) {
             label="Confirm Password"
             type="password"
             fullWidth
-            variant="standard"
+            variant="outlined"
             value={signUpData.confirmPassword}
             onChange={handleSignUpChange}
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseSignUp}>Cancel</Button>
-          <Button onClick={handleSignUp}>Sign Up</Button>
+          <Button onClick={handleCloseSignUp} color="secondary">Cancel</Button>
+          <Button onClick={handleSignUp} color="primary">Sign Up</Button>
         </DialogActions>
       </Dialog>
 
-      {/* Log In Dialog */}
+      {/* Login Dialog */}
       <Dialog open={openLogin} onClose={handleCloseLogin}>
-        <DialogTitle>Log In</DialogTitle>
+        <DialogTitle>Login</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
@@ -349,7 +322,7 @@ function CustomAppBar({ onSearch }) {
             label="Username"
             type="text"
             fullWidth
-            variant="standard"
+            variant="outlined"
             value={loginData.username}
             onChange={handleLoginChange}
           />
@@ -359,18 +332,46 @@ function CustomAppBar({ onSearch }) {
             label="Password"
             type="password"
             fullWidth
-            variant="standard"
+            variant="outlined"
             value={loginData.password}
             onChange={handleLoginChange}
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseLogin}>Cancel</Button>
-          <Button onClick={handleLogin}>Log In</Button>
+          <Button onClick={handleCloseLogin} color="secondary">Cancel</Button>
+          <Button onClick={handleLogin} color="primary">Login</Button>
         </DialogActions>
       </Dialog>
 
-      {/* Snackbar for notifications */}
+      {/* Search Results Dialog */}
+      <Dialog open={openSearchDialog} onClose={() => setOpenSearchDialog(false)} fullWidth>
+        <DialogTitle>Search Results</DialogTitle>
+        <DialogContent>
+          <List>
+            {searchedItems.map((item, index) => (
+              <ListItem button key={index} onClick={() => handleItemClick(item)}>
+                <ListItemText primary={item.name} secondary={`Price: ${item.price} ZAR`} />
+              </ListItem>
+            ))}
+          </List>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenSearchDialog(false)} color="primary">Close</Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Item Details Dialog */}
+      <Dialog open={openItemDetailsDialog} onClose={handleCloseItemDetailsDialog} fullWidth>
+        <DialogTitle>Item Details</DialogTitle>
+        <DialogContent>
+          <Typography variant="body1">{selectedItemDetails}</Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseItemDetailsDialog} color="primary">Close</Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Snackbar */}
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={6000}

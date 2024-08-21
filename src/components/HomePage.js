@@ -3,17 +3,24 @@ import CustomAppBar from './CustomAppBar';
 import Footer from './Footer';
 import GroceryList from './GroceryList';
 import { Box } from '@mui/material';
+import backgroundImg from '../bg.jpg';
+
 
 function HomePage() {
   return (
     <Box 
-      sx={{ 
-        display: 'flex', 
-        flexDirection: 'column', 
-        minHeight: '100vh', 
-        overflowX: 'hidden', // Prevent horizontal scrolling
-      }}
-    >
+    sx={{ 
+      display: 'flex', 
+      flexDirection: 'column', 
+      minHeight: '100vh', 
+      overflowX: 'hidden', // Prevent horizontal scrolling
+      bgcolor: '#f5f5f5', // Background color for the entire page
+      // backgroundImage: `url(${backgroundImg})`, // Background image
+      backgroundSize: 'cover', // Cover the entire container
+      backgroundPosition: 'center', // Center the background image
+      backgroundRepeat: 'no-repeat', // Prevent repeating the background image
+    }}
+  >
       <CustomAppBar />
       <Box 
         sx={{ 

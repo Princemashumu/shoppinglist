@@ -5,21 +5,23 @@ import { Facebook, Twitter, Pinterest } from '@mui/icons-material';
 function Footer() {
   return (
     <Box 
-      sx={{ 
-        position: 'fixed', // Fixes the footer at the bottom of the viewport
-        bottom: 0, // Positions it at the bottom
-        left: 0,
-        width: '100%', // Ensures the footer spans the entire width of the viewport
-        backgroundColor: 'black', 
-        p: 0, 
-        display: 'flex', 
-        justifyContent: 'center', 
-        alignItems: 'center', 
-        flexDirection: 'column',
-        boxShadow: '0px -2px 10px rgba(0, 0, 0, 0.1)', // Adds a subtle shadow to separate from content
-        zIndex: 1300 // Ensures the footer stays above other content
-      }}
-    >
+    sx={{ 
+      position: 'fixed', // Fixes the footer at the bottom of the viewport
+      bottom: 0, // Positions it at the bottom
+      left: '10px',
+      right:'10px',
+      width: 'calc(100% - 20px)',// Ensures the footer spans the entire width of the viewport
+      backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent black background
+      p: 0, // Padding around content
+      display: 'flex', 
+      justifyContent: 'center', 
+      alignItems: 'center', 
+      flexDirection: 'column',
+      overflow:'hidden',
+      boxShadow: '0px -2px 10px rgba(0, 0, 0, 0.2)', // Subtle shadow to separate from content
+      zIndex: 1300 // Ensures the footer stays above other content
+    }}
+  >
       <Typography variant="body1" color="white" sx={{ mb: 2 }}>
         Follow us on
       </Typography>

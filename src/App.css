@@ -1,0 +1,29 @@
+.App {
+    position: relative;
+    z-index: 1; /* Ensure the content of the .App is above the background images */
+    padding: 20px; /* Adjust padding as needed */
+}
+
+/* Before pseudo-element */
+.App::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('/src/logo.png'); /* Replace with your image URL */
+    background-size: cover; /* Adjust background size */
+    background-position: center; /* Center the background image */
+    opacity: 0.5; /* Adjust opacity as needed */
+    z-index: -1; /* Ensure it appears behind the .App content */
+}
+
+body {
+    background-image: url('/src/bg.jpg'); /* Replace with your image path */
+    background-size: cover;
+    background-position: center;
+    margin: 0;
+    height: 100vh;
+    width: 100%;
+  }

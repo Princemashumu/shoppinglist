@@ -18,7 +18,17 @@
     {
       "id": "a438",
       "username": "princess",
-      "password": "000"r
+      "password": "000"
+    },
+    {
+      "id": "237d",
+      "username": "pk",
+      "password": "123"
+    },
+    {
+      "id": "07bf",
+      "username": "KK",
+      "password": "222"
     }
   ],
   "fruitVeg": [
@@ -53,6 +63,14 @@
       "notes": ""
     }
   ],
-  "beverages": [],
+  "beverages": [
+    {
+      "id": "3aba",
+      "name": "stillwater",
+      "quantity": "25",
+      "price": "10.00",
+      "notes": "make sure its fresh water"
+    }
+  ],
   "bathing": []
 }

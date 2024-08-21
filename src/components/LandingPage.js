@@ -18,6 +18,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { signUp, login, logout } from '../redux/slices/authSlice'; // Adjust the path if necessary
 import logo from '../logo.png'; // Import the logo image
 import Footer from './Footer';
+import backgroundImg from '../bg.jpg';
+
 
 function LandingPage() {
   const [signUpData, setSignUpData] = useState({ username: '', password: '', confirmPassword: '', acceptTerms: false });
@@ -85,7 +87,19 @@ function LandingPage() {
   };
 
   return (
-    <Box sx={{ flexGrow: 1, padding: '10px' }}>
+    <Box 
+    sx={{ 
+      display: 'flex', 
+      flexDirection: 'column', 
+      minHeight: '100vh', 
+      overflowX: 'hidden', // Prevent horizontal scrolling
+      bgcolor: '#f5f5f5', // Background color for the entire page
+      backgroundImage: `url(${backgroundImg})`, // Background image
+      backgroundSize: 'cover', // Cover the entire container
+      backgroundPosition: 'center', // Center the background image
+      backgroundRepeat: 'no-repeat', // Prevent repeating the background image
+    }}
+  >
       <AppBar
         position="fixed"
         sx={{
@@ -100,7 +114,7 @@ function LandingPage() {
           width: 'calc(100% - 20px)'
         }}
       >
-        <Toolbar sx={{ justifyContent: 'space-between' }}>
+        <Toolbar sx={{ justifyContent: 'space-between', padding: '0 10px' }}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <img src={logo} alt="Logo" style={{ width: '40px', height: 'auto', marginRight: '16px' }} />
             <Typography variant="h6" noWrap component="div" sx={{ color: '#333' }}>
@@ -145,7 +159,7 @@ function LandingPage() {
         </Toolbar>
       </AppBar>
 
-      <Box sx={{ mt: 12, display: 'flex', justifyContent: 'center', alignItems: 'center', height: 'calc(80vh - 100px)' }}>
+      <Box sx={{ mt: 12, display: 'flex', justifyContent: 'center', alignItems: 'center', height: 'calc(80vh - 100px)', padding: '0 10px' }}>
         {showLoader ? (
           <Box sx={{ 
             display: 'flex', 

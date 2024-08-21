@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Grid, Typography, TextField, IconButton, Button } from '@mui/material';
+import { Box, Grid, Typography, TextField, IconButton, Button, Snackbar, Alert} from '@mui/material';
 import { Edit, Save, Cancel, Add, Delete, Share } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchItems, addItem, updateItem, deleteItem, setTitle } from '../redux/slices/grocerySlice';
@@ -8,7 +8,7 @@ import logo from '../logo.png';
 function GroceryList() {
   const dispatch = useDispatch();
   const { fruitVeg, meat, beverages, bathing, loading } = useSelector((state) => state.grocery);
-
+  
   const [newItem, setNewItem] = useState({
     fruitVeg: { name: '', quantity: '', price: '', notes: '' },
     meat: { name: '', quantity: '', price: '', notes: '' },
@@ -44,7 +44,8 @@ function GroceryList() {
     beverages: false,
     bathing: false,
   });
-
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
   useEffect(() => {
     dispatch(fetchItems());
   }, [dispatch]);
@@ -167,24 +168,33 @@ function GroceryList() {
       .map(item => `Name: ${item.name}, Quantity: ${item.quantity}, Price: R${item.price}, Notes: ${item.notes}`)
       .join('\n');
     const title = titles[category];
-    
-    if (navigator.share) {
-      navigator.share({
-        title: `Grocery List - ${title}`,
-        text: items,
-        url: window.location.href,
-      })
-      .then(() => console.log('Share successful'))
-      .catch((error) => console.log('Error sharing:', error));
+    const textToCopy = `Grocery List - ${title}\n\n${items}\n\n${window.location.href}`;
+
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(textToCopy)
+        .then(() => {
+          setSnackbarMessage('Link copied to clipboard!');
+          setSnackbarOpen(true);
+        })
+        .catch((error) => {
+          console.error('Failed to copy text: ', error);
+          setSnackbarMessage('Failed to copy link.');
+          setSnackbarOpen(true);
+        });
     } else {
-      alert('Share functionality is not supported on this browser.');
+      alert('Clipboard API is not supported on this browser.');
     }
   };
+  const handleCloseSnackbar = () => {
+    setSnackbarOpen(false);
+  };
+
+
 
   return (
     <Box sx={{ p: 2 }}>
      {loading && (
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh'}}>
           <img src={logo} alt="Loading..." width={100} height={100} />
         </Box>
       )}
@@ -303,6 +313,15 @@ function GroceryList() {
           </Grid>
         ))}
       </Grid>
+       <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+      >
+        <Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 }
