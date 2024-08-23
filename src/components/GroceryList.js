@@ -63,22 +63,46 @@ function GroceryList() {
     });
   };
 
-  const handleSave = (category) => {
+  const handleSave = async (category) => {
     const { name, quantity, price, notes } = newItem[category];
+    
+    // Basic validation
     if (name.trim() === '' || quantity.trim() === '' || price.trim() === '') return;
-
-    if (isEditing[category] !== null) {
-      const id = (category === 'fruitVeg' ? fruitVeg : category === 'meat' ? meat : category === 'beverages' ? beverages : bathing)[isEditing[category]].id;
-      dispatch(updateItem({ category, id, item: { name, quantity, price, notes }, userId }));
+  
+    try {
+      if (isEditing[category] !== null) {
+        // Editing existing item
+        const id = (category === 'fruitVeg' ? fruitVeg : category === 'meat' ? meat : category === 'beverages' ? beverages : bathing)[isEditing[category]].id;
+        await dispatch(updateItem({ category, id, item: { name, quantity, price, notes }, userId }));
+        setSnackbarMessage('Item updated successfully!');
+      } else {
+        // Adding new item
+        await dispatch(addItem({ category, item: { name, quantity, price, notes }, userId }));
+        setSnackbarMessage('Item added successfully!');
+      }
+      
+      // Reset form and state
+      setNewItem({
+        ...newItem,
+        [category]: { name: '', quantity: '', price: '', notes: '' },
+      });
       setIsEditing({ ...isEditing, [category]: null });
-    } else {
-      dispatch(addItem({ category, item: { name, quantity, price, notes }, userId }));
+      setAddingItem({ ...addingItem, [category]: false });
+      setEditingTitle({ ...editingTitle, [category]: false });
+      setSnackbarOpen(true);
+      
+      // Reload the page (if necessary)
+      window.location.reload();
+      
+    } catch (error) {
+      setSnackbarMessage('Error saving item. Please try again.');
+      setSnackbarOpen(true);
     }
+  
 
     // setNewItem({ ...newItem, [category]: { name: '', quantity: '', price: '', notes: '' } });
     // setAddingItem({ ...addingItem, [category]: false });
     // setEditingTitle({ ...editingTitle, [category]: false });
-  
 
     setNewItem({
       ...newItem,
@@ -118,10 +142,28 @@ function GroceryList() {
     });
   };
 
-  const handleDelete = (category, index) => {
-    const id = (category === 'fruitVeg' ? fruitVeg : category === 'meat' ? meat : category === 'beverages' ? beverages : bathing)[index].id;
-    dispatch(deleteItem({ category, id, userId }));
-  };
+  const handleDelete = async (category, index) => {
+    if (window.confirm('Are you sure you want to delete this item?')) {
+      try {
+        // Get the item ID based on the category and index
+        const id = (category === 'fruitVeg' ? fruitVeg : category === 'meat' ? meat : category === 'beverages' ? beverages : bathing)[index].id;
+        
+        // Dispatch the delete action
+        await dispatch(deleteItem({ category, id, userId }));
+        
+        // Notify the user of success and reload the page
+        setSnackbarMessage('Item deleted successfully!');
+        setSnackbarOpen(true);
+        window.location.reload(); // Consider alternatives to full page reload if possible
+  
+      } catch (error) {
+        // Handle any errors during deletion
+        setSnackbarMessage('Error deleting item. Please try again.');
+        setSnackbarOpen(true);
+      }
+    }
+  }
+  
 
   const handleTitleChange = (e, category) => {
     setTitles({
@@ -209,7 +251,21 @@ function GroceryList() {
       <Grid container spacing={2}>
         {['fruitVeg', 'meat', 'beverages', 'bathing'].map((category) => (
           <Grid item xs={12} sm={6} md={3} key={category}>
-            <Box sx={{ p: 2, border: '1px solid #ccc', borderRadius: 1 }}>
+             <Box
+                sx={{
+                  mt: 2,
+                  mb: 1,
+                  p: 1,
+                   border: '1px solid black',
+                   borderRadius: 1,
+                  boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.1)', // Subtle shadow
+                  transition: 'transform 0.2s, box-shadow 0.2s', // Smooth transition for hover effect
+                  '&:hover': {
+                    transform: 'translateY(-2px)', // Slight lift on hover
+                    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.15)', // Stronger shadow on hover
+                  },
+                }}
+              >
               {editingTitle[category] ? (
                 <Box sx={{ mb: 2 }}>
                   <TextField
@@ -230,7 +286,7 @@ function GroceryList() {
                   </Box>
                 </Box>
               ) : (
-                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 ,color:"blue"}}>
                   <Typography variant="h6">{titles[category]}</Typography>
                   <Box>
                     <IconButton size="small" onClick={() => setEditingTitle({ ...editingTitle, [category]: true })}>
@@ -243,7 +299,22 @@ function GroceryList() {
                 </Box>
               )}
               {addingItem[category] ? (
-                <Box sx={{ mt: 2 }}>
+                <Box
+                sx={{
+                  mt: 2,
+                  mb: 1,
+                  p: 1,
+                  border: '1px solid #eee',
+                  borderRadius: 1,
+                  boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.15)', // Subtle shadow
+                  transition: 'transform 0.2s, box-shadow 0.2s', // Smooth transition for hover effect
+                  '&:hover': {
+                    transform: 'translateY(-2px)', // Slight lift on hover
+                    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.15)', // Stronger shadow on hover
+                    color:"white",
+                  },
+                }}
+              >
                   <TextField
                     label="Name"
                     value={newItem[category].name}
@@ -295,7 +366,21 @@ function GroceryList() {
                   Add Item
                 </Button>
               )}
-              <Box sx={{ mt: 2 }}>
+              <Box
+                sx={{
+                  mt: 2,
+                  mb: 1,
+                  p: 1,
+                  // border: '1px solid #eee',
+                  // borderRadius: 1,
+                  // boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.1)', // Subtle shadow
+                  transition: 'transform 0.2s, box-shadow 0.2s', // Smooth transition for hover effect
+                  '&:hover': {
+                    transform: 'translateY(-2px)', // Slight lift on hover
+                    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.15)', // Stronger shadow on hover
+                  },
+                }}
+              >
                 {(category === 'fruitVeg' ? fruitVeg : category === 'meat' ? meat : category === 'beverages' ? beverages : bathing).map((item, index) => (
                   <Box key={item.id} sx={{ mb: 1, p: 1, border: '1px solid #eee', borderRadius: 1 }}>
                     <Typography variant="body1">{item.name}</Typography>

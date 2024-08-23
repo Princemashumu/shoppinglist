@@ -1,116 +1,24 @@
 import React, { useState } from 'react';
 import {
-  AppBar, Toolbar, Typography, IconButton, InputBase, Box, Button, Dialog, DialogActions,
-  DialogContent, DialogTitle, TextField, Snackbar, List, ListItem, ListItemText, MenuItem, Select
+  AppBar, Toolbar, Typography, IconButton, Box, Button, Dialog, DialogActions,
+  DialogContent, DialogTitle, TextField, Snackbar, InputAdornment, List, ListItem, ListItemText
 } from '@mui/material';
-import { Search as SearchIcon, Logout as LogoutIcon, PersonAdd as PersonAddIcon } from '@mui/icons-material';
-import { styled, alpha } from '@mui/material/styles';
+import { Logout as LogoutIcon, PersonAdd as PersonAddIcon, Search as SearchIcon } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 
-const Search = styled('div')(({ theme }) => ({
-  position: 'relative',
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.black, 0.15),
-  '&:hover': {
-    backgroundColor: alpha(theme.palette.common.black, 0.25),
-  },
-  marginRight: theme.spacing(2),
-  marginLeft: 0,
-  width: '100%',
-  [theme.breakpoints.up('sm')]: {
-    marginLeft: theme.spacing(3),
-    width: 'auto',
-  },
-}));
-
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
-  '& .MuiInputBase-input': {
-    padding: theme.spacing(0.5, 1, 0.5, 0),
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    color: '#000',
-    [theme.breakpoints.up('md')]: {
-      width: '50ch',
-    },
-  },
-}));
-
-function CustomAppBar({ onSearch }) {
+function CustomAppBar() {
   const [isSignedIn, setIsSignedIn] = useState(true);
   const [openSignUp, setOpenSignUp] = useState(false);
   const [openLogin, setOpenLogin] = useState(false);
-  const [openSearchDialog, setOpenSearchDialog] = useState(false);
-  const [openItemDetailsDialog, setOpenItemDetailsDialog] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
-  const [searchedItems, setSearchedItems] = useState([]);
-  const [selectedItemDetails, setSelectedItemDetails] = useState(null);
-  const [sortOrder, setSortOrder] = useState('asc');
-
   const [signUpData, setSignUpData] = useState({ username: '', password: '', confirmPassword: '' });
   const [loginData, setLoginData] = useState({ username: '', password: '' });
-  
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const [openSearchResults, setOpenSearchResults] = useState(false);
+
   const navigate = useNavigate();
-
-  const handleSearchChange = async (event) => {
-    const searchValue = event.target.value;
-    
-    if (!searchValue) {
-      setSearchedItems([]);
-      setOpenSearchDialog(false);
-      return;
-    }
-
-    try {
-      const categories = ['fruitVeg', 'meat', 'beverages', 'bathing'];
-      const results = await Promise.all(categories.map(category => 
-        fetch(`http://localhost:5000/${category}?q=${encodeURIComponent(searchValue)}`)
-          .then(response => {
-            if (!response.ok) {
-              throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json();
-          })
-      ));
-
-      let flattenedResults = [].concat(...results);
-      
-      // Sort results by price based on the selected sort order
-      flattenedResults.sort((a, b) => {
-        if (sortOrder === 'asc') {
-          return a.price - b.price;
-        } else {
-          return b.price - a.price;
-        }
-      });
-
-      const uniqueResults = Array.from(new Set(flattenedResults.map(item => item.id)))
-        .map(id => flattenedResults.find(item => item.id === id));
-
-      setSearchedItems(uniqueResults);
-      setOpenSearchDialog(true);
-    } catch (error) {
-      console.error('Error fetching search results:', error);
-      setSnackbarMessage(`Error fetching search results: ${error.message}`);
-      setSnackbarOpen(true);
-    }
-  };
-
-  const handleSortChange = (event) => {
-    setSortOrder(event.target.value);
-  };
 
   const handleSignOut = () => {
     setIsSignedIn(false);
@@ -138,7 +46,7 @@ function CustomAppBar({ onSearch }) {
       setSnackbarOpen(true);
       return;
     }
-    
+
     try {
       const response = await fetch('http://localhost:5000/users', {
         method: 'POST',
@@ -165,7 +73,7 @@ function CustomAppBar({ onSearch }) {
       setSnackbarOpen(true);
       return;
     }
-    
+
     try {
       const response = await fetch('http://localhost:5000/users');
       const users = await response.json();
@@ -185,16 +93,29 @@ function CustomAppBar({ onSearch }) {
     }
   };
 
-  const handleItemClick = (item) => {
-    const itemDetails = `Full details of ${item.name}`;
-    setSelectedItemDetails(itemDetails);
-    setOpenItemDetailsDialog(true);
+  const handleSearch = async () => {
+    if (!searchQuery) return;
+
+    try {
+      const endpoints = ['fruitVeg', 'meat', 'beverages', 'bathing'];
+      const allResults = [];
+
+      // Fetch results from each endpoint
+      for (const endpoint of endpoints) {
+        const response = await fetch(`http://localhost:5000/${endpoint}?name=${searchQuery}`);
+        const results = await response.json();
+        allResults.push(...results);
+      }
+
+      setSearchResults(allResults);
+      setOpenSearchResults(true);
+    } catch (error) {
+      setSnackbarMessage('Search failed');
+      setSnackbarOpen(true);
+    }
   };
 
-  const handleCloseItemDetailsDialog = () => {
-    setOpenItemDetailsDialog(false);
-    setSelectedItemDetails(null);
-  };
+  const handleCloseSearchResults = () => setOpenSearchResults(false);
 
   return (
     <Box sx={{ flexGrow: 1, padding: '10px' }}>
@@ -210,7 +131,6 @@ function CustomAppBar({ onSearch }) {
           top: '10px',
           margin: 'auto',
           width: 'calc(100% - 20px)',
-          
         }}
       >
         <Toolbar sx={{ justifyContent: 'space-between' }}>
@@ -218,35 +138,32 @@ function CustomAppBar({ onSearch }) {
             <span style={{ color: 'red' }}>L</span>ist
           </Typography>
           {isSignedIn ? (
-            <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-              <Search>
-                <SearchIconWrapper>
-                  <SearchIcon sx={{ color: '#000' }} />
-                </SearchIconWrapper>
-                <StyledInputBase
-                  placeholder="Search…"
-                  inputProps={{ 'aria-label': 'search' }}
-                  onChange={handleSearchChange}
-                />
-              </Search>
-              <Select
-                value={sortOrder}
-                onChange={handleSortChange}
-                displayEmpty
-                inputProps={{ 'aria-label': 'Sort' }}
-                sx={{ marginLeft: 2, color: '#333', minWidth: 120 }}
-              >
-                <MenuItem value="asc">Price: Low to High</MenuItem>
-                <MenuItem value="desc">Price: High to Low</MenuItem>
-              </Select>
-            </Box>
-          ) : (
-            <Box sx={{ flexGrow: 1 }} />
-          )}
-          {isSignedIn ? (
-            <IconButton edge="end" color="inherit" onClick={handleSignOut}>
-              <LogoutIcon sx={{ color: '#333' }} />
-            </IconButton>
+            <>
+              <TextField
+                variant="outlined"
+                placeholder="Find your grocery list fast..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && handleSearch()} // Trigger search on Enter key
+                sx={{
+                  backgroundColor: 'orange',
+                  input: { color: 'white' },
+                  borderRadius: 1,
+                  width: { xs: '150px', sm: '300px' }, // Responsive width
+                  mr: 2,
+                }}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <SearchIcon sx={{ color: 'white' }} />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+              <IconButton edge="end" color="inherit" onClick={handleSignOut}>
+                <LogoutIcon sx={{ color: '#333' }} />
+              </IconButton>
+            </>
           ) : (
             <Box sx={{ display: 'flex', gap: '10px' }}>
               <Button
@@ -344,37 +261,25 @@ function CustomAppBar({ onSearch }) {
       </Dialog>
 
       {/* Search Results Dialog */}
-      <Dialog open={openSearchDialog} onClose={() => setOpenSearchDialog(false)} fullWidth>
+      <Dialog open={openSearchResults} onClose={handleCloseSearchResults}>
         <DialogTitle>Search Results</DialogTitle>
         <DialogContent>
           <List>
-            {searchedItems.map((item, index) => (
-              <ListItem button key={index} onClick={() => handleItemClick(item)}>
-                <ListItemText primary={item.name} secondary={`Price: ${item.price} ZAR`} />
+            {searchResults.map((result, index) => (
+              <ListItem button key={index}>
+                <ListItemText primary={result.name} secondary={`Price: ${result.price}`} />
               </ListItem>
             ))}
           </List>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setOpenSearchDialog(false)} color="primary">Close</Button>
+          <Button onClick={handleCloseSearchResults} color="primary">Close</Button>
         </DialogActions>
       </Dialog>
 
-      {/* Item Details Dialog */}
-      <Dialog open={openItemDetailsDialog} onClose={handleCloseItemDetailsDialog} fullWidth>
-        <DialogTitle>Item Details</DialogTitle>
-        <DialogContent>
-          <Typography variant="body1">{selectedItemDetails}</Typography>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseItemDetailsDialog} color="primary">Close</Button>
-        </DialogActions>
-      </Dialog>
-
-      {/* Snackbar */}
       <Snackbar
         open={snackbarOpen}
-        autoHideDuration={6000}
+        autoHideDuration={3000}
         onClose={() => setSnackbarOpen(false)}
         message={snackbarMessage}
       />

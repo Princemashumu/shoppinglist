@@ -3,18 +3,21 @@ import axios from 'axios';
 
 const API_URL = 'http://localhost:5000';
 
+// Thunks
 export const fetchItems = createAsyncThunk('grocery/fetchItems', async (userId) => {
-  const [fruitVeg, meat, beverages, bathing] = await Promise.all([
+  const [fruitVeg, meat, beverages, bathing, titles] = await Promise.all([
     axios.get(`${API_URL}/fruitVeg?userId=${userId}`),
     axios.get(`${API_URL}/meat?userId=${userId}`),
     axios.get(`${API_URL}/beverages?userId=${userId}`),
     axios.get(`${API_URL}/bathing?userId=${userId}`),
+    axios.get(`${API_URL}/titles?userId=${userId}`), // Fetch titles
   ]);
   return {
     fruitVeg: fruitVeg.data,
     meat: meat.data,
     beverages: beverages.data,
     bathing: bathing.data,
+    titles: titles.data, // Include titles in the response
   };
 });
 
@@ -33,12 +36,23 @@ export const deleteItem = createAsyncThunk('grocery/deleteItem', async ({ catego
   return { category, id };
 });
 
+export const updateTitle = createAsyncThunk('grocery/updateTitle', async ({ category, title, userId }) => {
+  await axios.put(`${API_URL}/titles`, { category, title, userId });
+  return { category, title };
+});
+
 // Initial state
 const initialState = {
   fruitVeg: [],
   meat: [],
   beverages: [],
   bathing: [],
+  titles: {
+    fruitVeg: '',
+    meat: '',
+    beverages: '',
+    bathing: '',
+  },
   loading: false,
   error: null,
 };
@@ -65,6 +79,7 @@ const grocerySlice = createSlice({
         state.meat = action.payload.meat;
         state.beverages = action.payload.beverages;
         state.bathing = action.payload.bathing;
+        state.titles = action.payload.titles; // Set titles
       })
       .addCase(fetchItems.rejected, (state, action) => {
         state.loading = false;
@@ -83,6 +98,10 @@ const grocerySlice = createSlice({
       .addCase(deleteItem.fulfilled, (state, action) => {
         const { category, id } = action.payload;
         state[category] = state[category].filter((i) => i.id !== id);
+      })
+      .addCase(updateTitle.fulfilled, (state, action) => {
+        const { category, title } = action.payload;
+        state.titles[category] = title;
       });
   },
 });

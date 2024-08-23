@@ -53,44 +53,14 @@
   ],
   "fruitVeg": [
     {
-      "name": "banana",
-      "quantity": "24",
-      "price": "2",
-      "notes": "",
-      "id": "6193"
-    },
-    {
+      "id": "5f7f",
       "name": "apple",
-      "quantity": "30",
+      "quantity": "20",
       "price": "3",
-      "notes": "",
-      "id": "e198"
+      "notes": "buy fresh apples"
     }
   ],
-  "meat": [
-    {
-      "name": "beef",
-      "quantity": "2",
-      "price": "160",
-      "notes": "",
-      "id": "92f4"
-    },
-    {
-      "id": "ba24",
-      "name": "pork",
-      "quantity": "3",
-      "price": "80",
-      "notes": ""
-    }
-  ],
-  "beverages": [
-    {
-      "name": "stillwater",
-      "quantity": "25",
-      "price": "10.00",
-      "notes": "make sure its fresh water",
-      "id": "3aba"
-    }
-  ],
+  "meat": [],
+  "beverages": [],
   "bathing": []
 }
