@@ -166,12 +166,22 @@ function GroceryList() {
   
 
   const handleTitleChange = (e, category) => {
+    const newTitle = e.target.value;
+  
+    // Basic validation: ensure the title is not empty
+    if (newTitle.trim() === '') {
+      // Handle empty title case (e.g., show a message or prevent saving)
+      console.error('Title cannot be empty');
+      return;
+    }
+  
+    // Update the local state with the new title
     setTitles({
       ...titles,
-      [category]: e.target.value,
+      [category]: newTitle,
     });
   };
-
+  
   const saveTitle = (category) => {
     dispatch(setTitle({ category, title: titles[category] }));
     setEditingTitle({
