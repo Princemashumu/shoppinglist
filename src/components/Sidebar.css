@@ -1,0 +1,39 @@
+.sidebar {
+    width: 200px;
+    height: 100vh;
+    background-color: #f4f4f4;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
+  
+  .menu-item {
+    margin: 15px 0;
+    padding: 10px 15px;
+    background-color: #ffd000;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s ease;
+  }
+  
+  .menu-item:hover {
+    background-color: #0056b3;
+  }
+  
+  .menu-item:active {
+    background-color: #ff9d00;
+  }
+/* Logo container */
+.logo-container {
+    margin-bottom: 2rem;
+  }
+  
+  .logo {
+    width: 120px;
+    height: auto;
+    margin-bottom: 1rem;
+  }

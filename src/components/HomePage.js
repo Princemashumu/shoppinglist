@@ -3,7 +3,7 @@ import AddItemForm from '../components/AddItemForm';
 import ShoppingList from '../components/ShoppingList';
 import EditItemForm from '../components/EditItemForm';
 import './HomePage.css'; // Import CSS file here
-
+import Navbar from '../components/Navbar'; // Adjusted import path
 const HomePage = () => {
   const [editingItem, setEditingItem] = useState(null);
 

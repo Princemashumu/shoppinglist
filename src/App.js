@@ -4,6 +4,8 @@ import { useSelector } from 'react-redux';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import LandingPage from './components/LandingPage'; // Adjusted import path
 import HomePage from './components/HomePage'; // Adjusted import path
+import AddItemForm from './components/AddItemForm';
+import EditItemForm from './components/EditItemForm';
 
 
 const App = () => {
