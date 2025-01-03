@@ -1,0 +1,122 @@
+{
+  "users": [
+    {
+      "id": "e617",
+      "email": "Prince@gmail.com",
+      "password": "Prince123"
+    },
+    {
+      "id": "c27a",
+      "email": "Princess@gmail.com",
+      "password": "Princess123"
+    },
+    {
+      "id": "9b580c32-63ef-44c0-8ee2-e486e3023976",
+      "email": "Ngwako@gmail.com",
+      "password": "Ngwako123"
+    },
+    {
+      "id": "5ddfce4f-727c-4af3-9581-8b1a4bb3867c",
+      "email": "x@gmail.com",
+      "password": "1234"
+    },
+    {
+      "id": "70043ec6-85d7-4942-8406-3ca0f627d73f",
+      "email": "pri@gmail.com",
+      "password": "123456"
+    },
+    {
+      "id": "d430e402-f692-4375-9895-0eb015c1f347",
+      "email": "p@gmail.com",
+      "password": "123456"
+    },
+    {
+      "id": "cb810a05-8f1f-4adf-8e81-945235091dc1",
+      "email": "ngwako@gmail.com",
+      "password": "ngwako12345"
+    },
+    {
+      "id": "a6d0d693-17cb-4182-bdbd-a1f82c2cdc4d",
+      "email": "kyle@gmail.com",
+      "password": "kyle12345"
+    },
+    {
+      "id": "91a2167c-edef-4d15-a6bc-1e6da460ef26",
+      "email": "hyle@gmail.com",
+      "password": "hyle12345"
+    },
+    {
+      "id": "b06bf79c-f352-48a5-b26c-b7eaa4a3c76f",
+      "email": "guru@gmail.com",
+      "password": "guru@12345"
+    },
+    {
+      "id": "a7cfa188-fe3e-4d27-94a7-3abe79fb6b98",
+      "email": "princengwakomashumu@gmail.com",
+      "password": "123456"
+    },
+    {
+      "id": "dea8c5b8-d329-41ec-b0fc-db2d2784b5c4",
+      "email": "ty@gmail.com",
+      "password": "ty12345"
+    },
+    {
+      "id": "a2f60e9b-941d-4108-a85a-62d4e1a753dd",
+      "email": "fly@gmail.com",
+      "password": "12345"
+    }
+  ],
+  "items": [
+    {
+      "id": "9173",
+      "name": "Mango",
+      "quantity": "5",
+      "userId": "e617"
+    },
+    {
+      "id": "0672",
+      "name": "Guava",
+      "quantity": "4",
+      "category": "Groceries",
+      "tag": "Essential",
+      "userId": "9b580c32-63ef-44c0-8ee2-e486e3023976"
+    },
+    {
+      "id": "3193",
+      "name": "Banana",
+      "quantity": "10",
+      "category": "Groceries",
+      "tag": "Non-Essential",
+      "notes": "",
+      "userId": "9b580c32-63ef-44c0-8ee2-e486e3023976"
+    },
+    {
+      "id": "4e3a",
+      "name": "sphere",
+      "quantity": 1,
+      "category": "Groceries",
+      "tag": "Non-Essential",
+      "notes": "buy three boxes",
+      "userId": "5ddfce4f-727c-4af3-9581-8b1a4bb3867c"
+    },
+    {
+      "id": "bc34",
+      "name": "Apple",
+      "quantity": 1,
+      "category": "Groceries",
+      "tag": "Non-Essential",
+      "notes": "",
+      "userId": "a6d0d693-17cb-4182-bdbd-a1f82c2cdc4d"
+    },
+    {
+      "id": "ab28",
+      "name": "hhfgh",
+      "quantity": 1,
+      "category": "Groceries",
+      "tag": "Essential",
+      "notes": "",
+      "userId": "a6d0d693-17cb-4182-bdbd-a1f82c2cdc4d"
+    }
+  ],
+  "categories": []
+}

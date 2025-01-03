@@ -1,17 +1,31 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import HomePage from './components/HomePage';
-import LandingPage from './components/LandingPage';
+// src/App.js
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import LandingPage from './components/LandingPage'; // Adjusted import path
+import HomePage from './components/HomePage'; // Adjusted import path
 
-function App() {
+
+const App = () => {
+  const [editingItem, setEditingItem] = useState(null); // Currently unused but may be for future edits
+  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/home" element={<HomePage />} />
-      </Routes>
+      <div className="App">
+        {/* <Navbar /> */}
+        <Routes>
+          {/* Route for Landing Page */}
+          <Route path="/" element={<LandingPage />} />
+          {/* Redirect to HomePage if authenticated; otherwise, go to login */}
+          <Route
+            path="/HomePage"
+            element={isAuthenticated ? <HomePage /> : <Navigate to="/login" replace />}
+          />
+        </Routes>
+      </div>
     </Router>
   );
-}
+};
 
 export default App;

@@ -1,0 +1,46 @@
+/* src/components/Auth/AuthForm.css */
+
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    background-color: #f0f0f0;
+    perspective: 1000px; /* Needed for 3D effect */
+  }
+  
+  .form-card {
+    position: relative;
+    width: 300px;
+    height: 400px;
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+  }
+  
+  /* Forms styling */
+  .auth-form {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+  }
+  
+  /* Show the login form on the back side */
+  .auth-form:nth-of-type(2) { /* This targets the SignUpForm */
+    transform: rotateY(180deg);
+  }
+  
+  /* Rotate the card when .flipped is added */
+  .form-container.flipped .form-card {
+    transform: rotateY(180deg);
+  }
+  

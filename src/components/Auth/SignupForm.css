@@ -1,0 +1,115 @@
+/* General container for form */
+.form-container {
+    display: flex;
+    justify-content: center; /* Horizontally center the form */
+    align-items: flex-start; /* Align the form to the top */
+    height: 100vh; /* Full height */
+    font-family: 'Inter', sans-serif; /* Modern font *
+    padding: 1rem; /* Padding for smaller screens */
+    position: relative; /* Enable positioning adjustments */
+}
+
+/* Transparent form style */
+.form {
+    width: 100%;
+    max-width: 350px; /* Restrict maximum width */
+    padding: 2.5rem;
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hover effect */
+.form:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* Input fields */
+input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 1.25rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 1rem;
+    color: #333;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+    outline: none;
+}
+
+/* Button */
+button {
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+/* Text and link */
+p {
+    text-align: center;
+    margin-top: 1.25rem;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+span {
+    color: #007bff;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+span:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+/* Terms container */
+.terms-container {
+    display: flex;
+    align-items: center;
+    margin: 1rem 0;
+}
+
+.styled-checkbox {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    accent-color: #007bff;
+    margin-right: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.terms-link {
+    color: #007bff;
+    cursor: pointer;
+    text-decoration: underline;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
